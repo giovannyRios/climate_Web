@@ -1,0 +1,65 @@
+﻿@using climate_MVC.Models.DTO;
+@model List<weatherForecastRegisterDTO>
+@{
+    ViewBag.Title = "Inicio";
+}
+@if (User.Identity.IsAuthenticated)
+{
+<div class="box-main">
+    <div class="form-group">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <td>@Html.LabelFor(p => Model[0].ClimaticDescription)</td>
+                    <td>@Html.LabelFor(p => Model[0].DateRegister)</td>
+                    <td>@Html.LabelFor(p => Model[0].Temperature)</td>
+                    <td>@Html.LabelFor(p => Model[0].tipoTemperatura)</td>
+                    <td>@Html.LabelFor(p => Model[0].WeatherStation)</td>
+                    <td>@Html.LabelFor(p => Model[0].ClimaticPhenomenon)</td>
+                    <td>@Html.LabelFor(p => Model[0].Alert)</td>
+                    <td><label>Acciones</label></td>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    if (Model.Count > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.ClimaticDescription</td>
+                                <td>@Convert.ToDateTime(item.DateRegister).ToLongDateString()</td>
+                                <td>@item.Temperature</td>
+                                <td>@item.tipoTemperatura</td>
+                                <td>@item.WeatherStation</td>
+                                <td>@item.ClimaticPhenomenon</td>
+                                <td>@item.Alert</td>
+                                <td>
+                                    <a href="@Url.Action("Editar", "Home", new { ID = item.ID})" class="btn btn-success">
+                                        Editar
+                                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                                    </a>
+                                    <a href="@Url.Action("Borrar", "Home", new { ID = item.ID})" class="btn btn-warning">
+                                        Borrar
+                                        <span class="glyphicon glyphicon-floppy-remove" aria-hidden="true"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <a href="@Url.Action("Insertar", "Home")" class="btn btn-warning">
+        Insertar
+        <span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span>
+    </a>
+</div>
+    <footer>
+        <p class="text-center">@DateTime.Now.Year - Registro climatico</p>
+    </footer>
+}
+

@@ -1,0 +1,51 @@
+﻿@model climate_MVC.Models.DTO.tblUsersInsert
+@{
+    ViewBag.Title = "Login";
+}
+
+@using (Html.BeginForm("Login", "Home", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-Horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken();
+    <div class="box-login">
+        <div class="form-group">
+            @Html.LabelFor(model => model.userName, htmlAttributes: new { @class = "control-label col-md-2", @style = "font-size:11px" })
+            @Html.EditorFor(model => model.userName, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off", @id = "StrUserName", @placeholder = "Ingrese usuario" } })
+            @Html.ValidationMessageFor(model => model.userName, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.userPassword, htmlAttributes: new { @class = "control-label col-md-2", @style = "font-size:11px" })
+            @Html.EditorFor(model => model.userPassword, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off", @id = "strUserPassword", @placeholder = "Ingrese contraseña" } })
+            @Html.ValidationMessageFor(model => model.userPassword, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn white" value="Ingresar" style="min-width:230px" />
+        </div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    </div>
+    <br />
+    <footer>
+        <p class="text-center">@DateTime.Now.Year - Registro climatico</p>
+    </footer>
+}
+
+@section  Scripts{
+    @Scripts.Render("~/bundles/jqueryval");
+    <script>
+        $(document).ready(
+            function () {
+                $('#StrUserName').keyup(function (event) {
+                    disableEspecial(this);
+                });
+
+                $('#strUserPassword').keyup(function (event) {
+                    disableEspecial(this);
+                });
+            });
+
+        function disableEspecial(e) {
+            if (e.value.match(/[^a-zA-Z0-9 ]/g)) {
+                e.value = e.value.replace(/[^a-zA-Z0-9 ]/g, '');
+            }
+        }
+    </script>
+}
